@@ -1,0 +1,72 @@
+# Hack The Box — Windows / Active Directory Exploitation
+
+## Overview
+
+This report documents exploitation of a Windows-based machine involving Active Directory techniques.
+
+---
+
+## Methodology
+
+1. Enumeration
+2. Credential discovery
+3. Lateral movement
+4. Privilege escalation
+
+---
+
+## Enumeration
+
+Tools used:
+
+* Nmap
+* SMB enumeration
+
+```bash
+smbclient -L //<target>
+```
+
+---
+
+## Initial Access
+
+* Discovered credentials or misconfiguration
+* Gained access to system
+
+---
+
+## Exploitation
+
+Used tools such as:
+
+* Impacket
+* SMB tools
+
+Example:
+
+```bash
+impacket-getST
+```
+
+---
+
+## Privilege Escalation
+
+* Abuse of misconfigured permissions
+* Credential dumping
+
+---
+
+## Impact
+
+* Domain-level access (or admin access)
+* Ability to control system resources
+
+---
+
+## Skills Demonstrated
+
+* Windows enumeration
+* AD attacks
+* Credential abuse
+* Lateral movement
