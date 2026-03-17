@@ -1,0 +1,48 @@
+# ReconScanner — Methodology & Design
+
+## Overview
+
+ReconScanner is a custom-built reconnaissance tool designed to automate attack surface discovery during penetration testing.
+
+---
+
+## Features
+
+* Port scanning (Nmap)
+* Technology detection
+* Directory brute forcing
+* JavaScript endpoint extraction
+* Web crawling
+* Vulnerability probing
+
+---
+
+## Workflow
+
+1. Target input
+2. Recon phase
+3. Endpoint discovery
+4. Parameter extraction
+5. Attack surface mapping
+
+---
+
+## Example Usage
+
+```bash
+reconscanner target.com --full
+```
+
+---
+
+## Purpose
+
+To streamline the reconnaissance phase and assist in identifying high-value attack vectors quickly.
+
+---
+
+## Skills Demonstrated
+
+* Python scripting
+* Automation
+* Security tooling development
